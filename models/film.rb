@@ -24,6 +24,13 @@ class Film
     @id = id_return.first['id']
   end
 
+  def self.return_all()
+    sql = "SELECT * FROM films"
+    films_hashes = SqlRunner.run(sql)
+    films = films_hashes.map { |film| Film.new(film)}
+    return films
+  end
+
 
 
 

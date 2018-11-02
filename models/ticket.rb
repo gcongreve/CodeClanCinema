@@ -23,6 +23,13 @@ class Ticket
     @id = id_return.first['id']
   end
 
+  def self.return_all()
+    sql = "SELECT * FROM tickets"
+    tickets_hashes = SqlRunner.run(sql)
+    tickets = tickets_hashes.map { |ticket| Ticket.new(ticket)}
+    return tickets
+  end
+
 
 
 

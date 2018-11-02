@@ -3,7 +3,7 @@ require_relative('../db/sql_runner')
 class Customer
 
   attr_accessor :name, :funds
-  attr_reader :id 
+  attr_reader :id
 
   def initialize(options)
     @id = options['id'].to_i if options['id']
@@ -22,6 +22,13 @@ class Customer
     values = [@name, @funds]
     id_return = SqlRunner.run(sql, values)
     @id = id_return.first['id'].to_i
+  end
+
+  def self.return_all()
+    sql = "SELECT * FROM customers"
+    customers_hashes = SqlRunner.run(sql)
+    customers = customers_hashes.map { |customer| Customer.new(customer)}
+    return customers 
   end
 
 
