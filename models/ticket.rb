@@ -18,7 +18,7 @@ class Ticket
     ($1,
     $2)
     RETURNING id;"
-    values = [@customer_id, @film_id]
+    values = [@film_id, @customer_id]
     id_return = SqlRunner.run(sql, values)
     @id = id_return.first['id']
   end
