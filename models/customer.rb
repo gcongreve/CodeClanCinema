@@ -17,8 +17,8 @@ class Customer
      $2)
      RETURNING id;"
     values = [@name, @funds]
-    id_result = SqlRunner.run(sql, values)
-    @id = id_result.first['id'].to_i
+    id_return = SqlRunner.run(sql, values)
+    @id = id_return.first['id'].to_i
   end
 
 

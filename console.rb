@@ -7,6 +7,8 @@ require('pry-byebug')
 customer1 = Customer.new({'name' => 'Customer One', 'funds' => 50})
 customer1.save
 
+film1 = Film.new({'title' => 'Jaws', 'price' => 10})
+film1.save
 
 
 
