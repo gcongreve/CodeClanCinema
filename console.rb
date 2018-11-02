@@ -29,7 +29,7 @@ ticket1.save
 ticket2 = Ticket.new({'film_id' => film2.id, 'customer_id' => customer1.id})
 ticket2.save
 
-#p film1.which_customers_have_tickets # works
+#p film1.which_customers
 p customer1.which_films
 
 # binding.pry
