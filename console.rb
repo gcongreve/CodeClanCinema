@@ -23,15 +23,15 @@ film2.save
 # film2.title = 'Jaws 3'
 # film2.update
 
-customer1.buy_ticket(film1)
+# p customer1.number_of_tickets
+# customer1.buy_ticket(film1)
+# p customer1.number_of_tickets
 
 
-binding.pry
-nil
-# ticket1 = Ticket.new({'film_id' => film1.id, 'customer_id' => customer1.id})
-# ticket1.save
-# ticket2 = Ticket.new({'film_id' => film2.id, 'customer_id' => customer1.id})
-# ticket2.save
+ticket1 = Ticket.new({'film_id' => film1.id, 'customer_id' => customer1.id})
+ticket1.save
+ticket2 = Ticket.new({'film_id' => film2.id, 'customer_id' => customer1.id})
+ticket2.save
 
 #p film1.which_customers
 # p customer1.which_films
@@ -39,3 +39,5 @@ nil
 # p customer1.funds
 # customer1.pay_for_film(film1)
 # p customer1.funds
+binding.pry
+nil
