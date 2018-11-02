@@ -61,7 +61,14 @@ class Film
     return customers
   end
 
-  
+  def number_of_customers()
+    sql = "SELECT * FROM tickets
+	  WHERE film_id = $1;"
+    values = [@id]
+    customers_hashes = SqlRunner.run(sql, values)
+    customer_number = customers_hashes.count
+    return customer_number
+  end
 
 
 

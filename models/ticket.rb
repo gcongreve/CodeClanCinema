@@ -50,5 +50,4 @@ class Ticket
   end
 
 
-
 end
