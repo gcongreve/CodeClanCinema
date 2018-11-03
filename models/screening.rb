@@ -28,6 +28,20 @@ class Screening
     @id = id_return.first['id']
   end
 
+  def delete()
+    sql = "DELETE FROM screenings WHERE id = $1;"
+    values = [@id]
+    SqlRunner.run(sql, values)
+  end
+
+  def self.delete_all()
+    sql = "DELETE FROM screenings"
+    SqlRunner.run(sql)
+  end
+
+  def any_tickets_left?
+    @tickets_left != 0
+  end
 
 
 end
