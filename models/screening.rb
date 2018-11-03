@@ -81,7 +81,7 @@ class Screening
     return screenings
   end
 
-  def self.most_popular #returns the most popular screening at cinema
+  def self.most_popular_screening #returns the most popular screening at cinema
     most_popular = nil
     unsold_tickets = 2 #max capacity of the cinema
     return_all.each do |screening|
@@ -92,7 +92,7 @@ class Screening
     return most_popular
   end
 
-  def self.most_popular_screening(film) #most popular screening of film
+  def self.most_popular_screening_film(film) #most popular screening of a film
     most_popular = nil
     unsold_tickets = 2 #max capacity of the cinema
     screenings = return_films_screenings(film)
