@@ -12,6 +12,13 @@ class Screening
     @tickets_left = options['tickets_left'].to_i
   end
 
+  def update_screening()
+    sql = "UPDATE screenings
+     SET (film_id, start_time, tickets_left) = ($1, $2, $3)
+     WHERE id = $4;"
+    values = [@film_id, @start_time, @tickets_left, @id]
+    SqlRunner.run(sql, values)
+  end
 
   def save()
     sql = "INSERT INTO screenings

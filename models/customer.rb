@@ -1,6 +1,7 @@
 require_relative('../db/sql_runner')
 require_relative('film')
 require_relative('ticket')
+require_relative('screening')
 
 class Customer
 
@@ -33,7 +34,7 @@ class Customer
     return customers
   end
 
-  def update()
+  def update_customer()
     sql = "UPDATE customers
 	   SET (name, funds) = ($1, $2)
 	   WHERE id = $3;"
@@ -84,9 +85,21 @@ class Customer
       pay_for_film(film_object)
       ticket = Ticket.new({'film_id' => film_object.id, 'customer_id' => @id })
       ticket.save
-      update
+      update_customer
     end
   end
+
+  def buy_screening_ticket(screening)
+    if screening.any_tickets_left? && enough_money?(screening.price)
+      pay_for_film(screening)
+      screening.remove_ticket
+      ticket = Ticket.new({'film_id' => screening.film_id, 'customer_id' => @id })
+      ticket.save
+      update_customer
+      screening.update_screening
+    end
+  end
+
 
   def number_of_tickets
     sql = "SELECT * FROM tickets

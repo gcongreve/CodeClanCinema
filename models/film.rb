@@ -31,7 +31,7 @@ class Film
     return films
   end
 
-  def update()
+  def update_film()
     sql = "UPDATE films
      SET (title, price) = ($1, $2)
      WHERE id = $3;"

@@ -30,7 +30,7 @@ class Ticket
     return tickets
   end
 
-  def update()
+  def update_ticket()
     sql = "UPDATE tickets
      SET (customer_id, film_id) = ($1, $2)
      WHERE id = $3;"
