@@ -90,13 +90,13 @@ class Customer
   end
 
   def buy_screening_ticket(screening)
-    if screening.any_tickets_left? && enough_money?(screening.price)
+    if screening.any_tickets_left? && enough_money?(screening)
       pay_for_film(screening)
       screening.remove_ticket
+      screening.update_screening
       ticket = Ticket.new({'film_id' => screening.film_id, 'customer_id' => @id })
       ticket.save
       update_customer
-      screening.update_screening
     end
   end
 

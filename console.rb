@@ -37,6 +37,9 @@ film1.save
 screening1 = Screening.new({'film_id' => film1.id, 'start_time' => '10.00', 'tickets_left' => 2 })
 screening1.save
 
+
+customer1.buy_screening_ticket(screening1)
+
 #p film1.which_customers
 # p customer1.which_films
 #
