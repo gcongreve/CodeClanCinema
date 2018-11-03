@@ -39,8 +39,12 @@ class Screening
     SqlRunner.run(sql)
   end
 
-  def any_tickets_left?
+  def any_tickets_left?()
     @tickets_left != 0
+  end
+
+  def remove_ticket()
+    @tickets_left -= 1
   end
 
 
