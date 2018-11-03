@@ -12,57 +12,9 @@ class Screening
     @tickets_left = options['tickets_left'].to_i
   end
 
-  def update_screening()
-    sql = "UPDATE screenings
-     SET (film_id, start_time, tickets_left) = ($1, $2, $3)
-     WHERE id = $4;"
-    values = [@film_id, @start_time, @tickets_left, @id]
-    SqlRunner.run(sql, values)
-  end
-
-  def save()
-    sql = "INSERT INTO screenings
-    (film_id,
-    start_time,
-    tickets_left)
-    VALUES
-    ($1,
-    $2,
-    $3)
-    RETURNING id;"
-    values = [@film_id, @start_time, @tickets_left]
-    id_return = SqlRunner.run(sql, values)
-    @id = id_return.first['id']
-  end
-
-  def delete()
-    sql = "DELETE FROM screenings WHERE id = $1;"
-    values = [@id]
-    SqlRunner.run(sql, values)
-  end
-
   def self.delete_all()
     sql = "DELETE FROM screenings"
     SqlRunner.run(sql)
-  end
-
-  def any_tickets_left?()
-    @tickets_left != 0
-  end
-
-  def remove_ticket()
-    @tickets_left -= 1
-  end
-
-  #should return the price of the film showing at the screening
-  def price()
-    sql = "SELECT films.price FROM films
-  	INNER JOIN screenings
-  	ON films.id = film_id
-  	WHERE screenings.id = $1;"
-    values = [@id]
-    price = SqlRunner.run(sql, values).first['price'].to_i
-    return price
   end
 
   def self.return_all()
@@ -72,7 +24,7 @@ class Screening
     return screenings
   end
 
-  def self.return_films_screenings(film)#returns all screenings of film
+  def self.return_films_screenings(film)#returns all screenings of a film
     sql = "SELECT * FROM screenings
       WHERE film_id = $1"
     values = [film.id]
@@ -104,5 +56,51 @@ class Screening
     return most_popular
   end
 
+  def save()
+    sql = "INSERT INTO screenings
+    (film_id,
+    start_time,
+    tickets_left)
+    VALUES
+    ($1,
+    $2,
+    $3)
+    RETURNING id;"
+    values = [@film_id, @start_time, @tickets_left]
+    id_return = SqlRunner.run(sql, values)
+    @id = id_return.first['id']
+  end
+
+  def delete()
+    sql = "DELETE FROM screenings WHERE id = $1;"
+    values = [@id]
+    SqlRunner.run(sql, values)
+  end
+
+  def update_screening()
+    sql = "UPDATE screenings
+     SET (film_id, start_time, tickets_left) = ($1, $2, $3)
+     WHERE id = $4;"
+    values = [@film_id, @start_time, @tickets_left, @id]
+    SqlRunner.run(sql, values)
+  end
+
+  def any_tickets_left?()
+    @tickets_left != 0
+  end
+
+  def remove_ticket()
+    @tickets_left -= 1
+  end
+
+  def price()  #returns the price of the film showing at the screening
+    sql = "SELECT films.price FROM films
+  	INNER JOIN screenings
+  	ON films.id = film_id
+  	WHERE screenings.id = $1;"
+    values = [@id]
+    price = SqlRunner.run(sql, values).first['price'].to_i
+    return price
+  end
 
 end

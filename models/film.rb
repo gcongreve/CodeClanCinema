@@ -11,6 +11,18 @@ class Film
     @price = options['price'].to_i
   end
 
+  def self.return_all()
+    sql = "SELECT * FROM films"
+    films_hashes = SqlRunner.run(sql)
+    films = films_hashes.map { |film| Film.new(film)}
+    return films
+  end
+
+  def self.delete_all()
+    sql = "DELETE FROM films"
+    SqlRunner.run(sql)
+  end
+
   def save()
     sql = "INSERT INTO films
     (title,
@@ -22,13 +34,6 @@ class Film
     values = [@title, @price]
     id_return = SqlRunner.run(sql, values)
     @id = id_return.first['id']
-  end
-
-  def self.return_all()
-    sql = "SELECT * FROM films"
-    films_hashes = SqlRunner.run(sql)
-    films = films_hashes.map { |film| Film.new(film)}
-    return films
   end
 
   def update_film()
@@ -43,11 +48,6 @@ class Film
     sql = "DELETE FROM films WHERE id = $1;"
     values = [@id]
     SqlRunner.run(sql, values)
-  end
-
-  def self.delete_all()
-    sql = "DELETE FROM films"
-    SqlRunner.run(sql)
   end
 
   def which_customers()
@@ -69,9 +69,5 @@ class Film
     customer_number = customers_hashes.count
     return customer_number
   end
-
-
-
-
 
 end

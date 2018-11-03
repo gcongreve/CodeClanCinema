@@ -14,6 +14,18 @@ class Customer
     @funds = options['funds'].to_i
   end
 
+  def self.delete_all()
+    sql = "DELETE FROM customers"
+    SqlRunner.run(sql)
+  end
+
+  def self.return_all()
+    sql = "SELECT * FROM customers"
+    customers_hashes = SqlRunner.run(sql)
+    customers = customers_hashes.map { |customer| Customer.new(customer)}
+    return customers
+  end
+
   def save()
     sql = "INSERT INTO customers
     (name,
@@ -25,13 +37,6 @@ class Customer
     values = [@name, @funds]
     id_return = SqlRunner.run(sql, values)
     @id = id_return.first['id'].to_i
-  end
-
-  def self.return_all()
-    sql = "SELECT * FROM customers"
-    customers_hashes = SqlRunner.run(sql)
-    customers = customers_hashes.map { |customer| Customer.new(customer)}
-    return customers
   end
 
   def update_customer()
@@ -48,12 +53,7 @@ class Customer
     SqlRunner.run(sql, values)
   end
 
-  def self.delete_all()
-    sql = "DELETE FROM customers"
-    SqlRunner.run(sql)
-  end
-
-  def which_films
+  def which_films #returns the films customer has tickets for
     sql = "SELECT films.* FROM films
     INNER JOIN tickets
     ON films.id = film_id
@@ -63,14 +63,6 @@ class Customer
     films = film_hashs.map { |film| Film.new(film) }
     return films
   end
-
-  # def film_price(film_name)
-  #   sql = "SELECT films.price FROM films
-	#    WHERE films.title = $1;"
-  #    values = [film_name]
-  #    prices = SqlRunner.run(sql, values)
-  #    return prices.to_i
-  # end
 
   def enough_money?(film)
     @funds > film.price
@@ -100,7 +92,6 @@ class Customer
     end
   end
 
-
   def number_of_tickets
     sql = "SELECT * FROM tickets
 	   WHERE customer_id = $1"
@@ -109,7 +100,5 @@ class Customer
     tickets = tickets_array.count
     return tickets
   end
-
-
 
 end
