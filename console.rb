@@ -14,6 +14,8 @@ customer1 = Customer.new({'name' => 'Customer One', 'funds' => 50})
 customer1.save
 # customer2 = Customer.new({'name' => 'Customer Two', 'funds' => 60})
 # customer2.save
+
+
 # customer1.name = 'Updated Customer'
 # customer1.update
 
@@ -36,6 +38,8 @@ film1.save
 
 screening1 = Screening.new({'film_id' => film1.id, 'start_time' => '10.00', 'tickets_left' => 2 })
 screening1.save
+screening2 = Screening.new({'film_id' => film1.id, 'start_time' => '12.00', 'tickets_left' => 2 })
+screening2.save
 
 
 customer1.buy_screening_ticket(screening1)
