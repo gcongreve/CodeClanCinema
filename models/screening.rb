@@ -72,11 +72,32 @@ class Screening
     return screenings
   end
 
-  def self.most_popular #should return the most popular screenng of a film 
+  def self.return_films_screenings(film)#returns all screenings of film
+    sql = "SELECT * FROM screenings
+      WHERE film_id = $1"
+    values = [film.id]
+    screenings_hashes = SqlRunner.run(sql, values)
+    screenings = screenings_hashes.map { |screen| Screening.new(screen) }
+    return screenings
+  end
+
+  def self.most_popular #returns the most popular screening at cinema
     most_popular = nil
-    least_tickets_left = 2 #max capacity of the cinema
+    unsold_tickets = 2 #max capacity of the cinema
     return_all.each do |screening|
-      if screening.tickets_left.to_i < least_tickets_left
+      if screening.tickets_left.to_i < unsold_tickets
+        most_popular = screening
+      end
+    end
+    return most_popular
+  end
+
+  def self.most_popular_screening(film) #most popular screening of film
+    most_popular = nil
+    unsold_tickets = 2 #max capacity of the cinema
+    screenings = return_films_screenings(film)
+    screenings.each do |screening|
+      if screening.tickets_left.to_i < unsold_tickets
         most_popular = screening
       end
     end
