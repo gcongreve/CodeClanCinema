@@ -47,5 +47,16 @@ class Screening
     @tickets_left -= 1
   end
 
+  #should return the price of the film showing at the screening
+  def price()
+    sql = "SELECT films.price FROM films
+  	INNER JOIN screenings
+  	ON films.id = film_id
+  	WHERE screenings.id = $1;"
+    values = [@id]
+    price = SqlRunner.run(sql, values).first['price'].to_i
+    return price
+  end
+
 
 end
