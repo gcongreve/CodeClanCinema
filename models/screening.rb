@@ -34,11 +34,12 @@ class Screening
     return screenings
   end
 
-  #returns the most popular screening at the cinema.
-  def self.most_popular_screening
+  #most popular screening of a film - Class version, also have instance version.
+  def self.most_popular_screening_of_a_film(film)
     most_popular = nil
     unsold_tickets = 2 #max capacity of the cinema
-    return_all.each do |screening|
+    screenings = return_films_screenings(film)
+    screenings.each do |screening|
       if screening.tickets_left.to_i < unsold_tickets
         most_popular = screening
       end
@@ -46,12 +47,11 @@ class Screening
     return most_popular
   end
 
-  #most popular screening of a film - Class version, also have instance version.
-  def self.most_popular_screening_of_a_film(film)
+  #returns the most popular screening at the cinema.
+  def self.most_popular_screening
     most_popular = nil
     unsold_tickets = 2 #max capacity of the cinema
-    screenings = return_films_screenings(film)
-    screenings.each do |screening|
+    return_all.each do |screening|
       if screening.tickets_left.to_i < unsold_tickets
         most_popular = screening
       end
