@@ -24,7 +24,8 @@ class Screening
     return screenings
   end
 
-  def self.return_films_screenings(film)#returns all screenings of a film
+  #returns all screenings a film. -Class version- also have instance version
+  def self.return_films_screenings(film)
     sql = "SELECT * FROM screenings
       WHERE film_id = $1"
     values = [film.id]
@@ -33,7 +34,8 @@ class Screening
     return screenings
   end
 
-  def self.most_popular_screening #returns the most popular screening at cinema
+  #returns the most popular screening at the cinema.
+  def self.most_popular_screening
     most_popular = nil
     unsold_tickets = 2 #max capacity of the cinema
     return_all.each do |screening|
@@ -44,7 +46,8 @@ class Screening
     return most_popular
   end
 
-  def self.most_popular_screening_film(film) #most popular screening of a film
+  #most popular screening of a film - Class version, also have instance version.
+  def self.most_popular_screening_of_a_film(film)
     most_popular = nil
     unsold_tickets = 2 #max capacity of the cinema
     screenings = return_films_screenings(film)
@@ -118,6 +121,28 @@ class Screening
     customers_hashes = SqlRunner.run(sql, values)
     customers = customers_hashes.map{ |customer| Customer.new(customer)}
     return customers
+  end
+
+  def return_film_screenings #returns all screenings of a film from instance
+    sql = "SELECT * FROM screenings
+      WHERE film_id = $1"
+    values = [@id]
+    screenings_hashes = SqlRunner.run(sql, values)
+    screenings = screenings_hashes.map { |screen| Screening.new(screen) }
+    return screenings
+  end
+
+  #most popular screening of a film - instance version.
+  def most_popular_screening_film
+    most_popular = nil
+    unsold_tickets = 2 #max capacity of the cinema
+    screenings = return_film_screenings
+    screenings.each do |screening|
+      if screening.tickets_left.to_i < unsold_tickets
+        most_popular = screening
+      end
+    end
+    return most_popular
   end
 
 end
