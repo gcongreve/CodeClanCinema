@@ -101,8 +101,8 @@ class Customer
     return tickets
   end
 
-  #returns all screenings for films that the customer has a ticket for. Although it also returns screenings that the customer is not attending.
-  def show_all_screenings_for_films()
+  #returns all screenings for films that the customer has a ticket for. Although it also returns screenings that the customer is not attending- if there's more  than 1 screening.
+  def return_screenings_for_films_ticket()
     sql = "SELECT screenings.* FROM screenings
   	INNER JOIN films
   	ON films.id = screenings.film_id
@@ -115,6 +115,6 @@ class Customer
     screen_hashs = SqlRunner(sql, values)
     screenings = screen_hashs.map { |screening| Screening.new(screening) }
     return screenings
-  end 
+  end
 
 end
