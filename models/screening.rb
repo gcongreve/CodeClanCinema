@@ -103,4 +103,21 @@ class Screening
     return price
   end
 
+  #shows all customers who have got tickets for whatever film is showing at the screening. Could be for any screening of the film though.
+  def customers_for_film_from_screening()
+    sql = ("SELECT customers.* FROM customers
+  	INNER JOIN tickets
+  	ON customers.id = customer_id
+  	INNER JOIN films
+  	ON films.id = film_id
+  	INNER JOIN screenings
+  	ON screenings.film_id = films.id
+  	WHERE screenings.id = $1;
+  	")
+    values = [@id]
+    customers_hashes = SqlRunner.run(sql, values)
+    customers = customers_hashes.map{ |customer| Customer.new(customer)}
+    return customers
+  end
+
 end
