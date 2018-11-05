@@ -112,7 +112,18 @@ class Customer
   	ON customers.id = tickets.customer_id
   	WHERE customers.id = $1;"
     values = [@id]
-    screen_hashs = SqlRunner(sql, values)
+    screen_hashs = SqlRunner.run(sql, values)
+    screenings = screen_hashs.map { |screening| Screening.new(screening) }
+    return screenings
+  end
+
+  def return_screenings()
+    sql = "SELECT screenings.* FROM screenings
+  	INNER JOIN tickets
+  	ON screening_id = screenings.id
+  	WHERE customer_id = $1;"
+    values = [@id]
+    screen_hashs = SqlRunner.run(sql, values)
     screenings = screen_hashs.map { |screening| Screening.new(screening) }
     return screenings
   end
