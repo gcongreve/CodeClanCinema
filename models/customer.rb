@@ -72,21 +72,21 @@ class Customer
     @funds -= film.price
   end
 
-  def buy_ticket(film_object)
-    if enough_money?(film_object)
-      pay_for_film(film_object)
-      ticket = Ticket.new({'film_id' => film_object.id, 'customer_id' => @id })
-      ticket.save
-      update_customer
-    end
-  end
+  # def buy_ticket(film_object)
+  #   if enough_money?(film_object)
+  #     pay_for_film(film_object)
+  #     ticket = Ticket.new({'film_id' => film_object.id, 'customer_id' => @id })
+  #     ticket.save
+  #     update_customer
+  #   end
+  # end
 
   def buy_screening_ticket(screening)
     if screening.any_tickets_left? && enough_money?(screening)
       pay_for_film(screening)
       screening.remove_ticket
       screening.update_screening
-      ticket = Ticket.new({'film_id' => screening.film_id, 'customer_id' => @id })
+      ticket = Ticket.new({'film_id' => screening.film_id, 'screening_id' => screening.id, 'customer_id' => @id })
       ticket.save
       update_customer
     end

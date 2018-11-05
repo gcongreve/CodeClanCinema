@@ -47,6 +47,13 @@ class Screening
     return most_popular
   end
 
+  def self.return_all() #returns all screenings from database
+    sql = "SELECT * FROM screenings"
+    screenings_hashes = SqlRunner.run(sql)
+    screenings = screenings_hashes.map { |screening| Screening.new(screening)}
+    return screenings
+  end
+
   #returns the most popular screening at the cinema.
   def self.most_popular_screening
     most_popular = nil
@@ -126,7 +133,7 @@ class Screening
   def return_film_screenings #returns all screenings of a film from instance
     sql = "SELECT * FROM screenings
       WHERE film_id = $1"
-    values = [@id]
+    values = [@film_id]
     screenings_hashes = SqlRunner.run(sql, values)
     screenings = screenings_hashes.map { |screen| Screening.new(screen) }
     return screenings
